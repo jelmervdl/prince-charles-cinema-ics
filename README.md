@@ -4,4 +4,7 @@ Takes https://princecharlescinema.com/whats-on/ and turns it into a calendar fee
 
 Automatically updated every day through the magic of Github Actions.
 
-[Subscribe](webcal://jelmervdl.github.io/pccical/pcc.ics)
+[Subscribe](webcal://jelmervdl.github.io/prince-charles-cinema-ics/pcc.ics)
+
+Other calendar feeds:
+- https://github.com/lamby/picturehouse-ics
