@@ -30,7 +30,7 @@ jobs:
         with:
           cache: npm
       - run: npm ci
-      - run: mkdir -p output
+      - run: mkdir -p gh-pages
       - run: npm run generate gh-pages/pcc.ics
       - run: npm install --no-save markdown-to-html-cli
       - run: npx markdown-to-html --output gh-pages/index.html
