@@ -30,9 +30,12 @@ jobs:
         with:
           cache: npm
       - run: npm ci
-      - run: npm run generate output/pcc.ics
+      - run: mkdir -p output
+      - run: npm run generate gh-pages/pcc.ics
+      - run: npm install --no-save markdown-to-html-cli
+      - run: npx markdown-to-html --output gh-pages/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: output
+          path: gh-pages
       - id: deployment
         uses: actions/deploy-pages@v4
