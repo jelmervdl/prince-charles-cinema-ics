@@ -30,9 +30,9 @@ jobs:
         with:
           cache: npm
       - run: npm ci
-      - run: npm run generate
+      - run: npm run generate output/pcc.ics
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: 'pcc.ics'
+          path: output
       - id: deployment
         uses: actions/deploy-pages@v4

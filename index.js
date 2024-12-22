@@ -1,6 +1,7 @@
 import { Browser } from "happy-dom";
 import ical from "ical-generator";
 import fs from "node:fs";
+import path from "node:path";
 
 const months = [
   "January",
@@ -98,9 +99,14 @@ async function main() {
     })
   });
 
-  fs.writeFile("pcc.ics", calendar.toString(), error => {
+  const dest = process.argv[2] || "out.ics";
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+
+  fs.writeFile(dest, calendar.toString(), error => {
     if (error) {
       console.error(error);
+    } else {
+      console.log(`wrote ${calendar.events().length} events to ${dest}`);
     }
   })
 
