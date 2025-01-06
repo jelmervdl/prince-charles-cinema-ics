@@ -39,6 +39,8 @@ function parseDate(day, time) {
 function scrape(page, callback) {
   page.querySelectorAll(".jacrofilm-list .jacro-event").forEach(eventEl => {
     const title = eventEl.querySelector(".liveeventtitle").textContent.trim();
+    const filmUrl = eventEl.querySelector(".film_img > a[href]")?.href;
+    const description = eventEl.querySelector(".jacrofilm-list-content > .jacro-formatted-text")?.innerText;
     const runtime = Array.from(
       eventEl.querySelectorAll(".running-time > span"),
       span => {
@@ -61,8 +63,8 @@ function scrape(page, callback) {
         const url = buttonEl.href;
         const start = parseDate(day, time);
         const end = new Date(start.getTime() + (parseInt(runtime) || 0) * 60_000);
-        const sold_out = listEl.matches(".soldfilm_book_button");
-        callback({ title, start, end, url, sold_out });
+        const soldOut = listEl.matches(".soldfilm_book_button");
+        callback({ title, start, end, url, description, soldOut, filmUrl });
       }
     })
   })
@@ -89,12 +91,13 @@ async function main() {
   await page.goto("https://princecharlescinema.com/whats-on/");
   await page.waitUntilComplete();
 
-  scrape(page.mainFrame.document, ({title, start, end, url, sold_out}) => {
+  scrape(page.mainFrame.document, ({title, start, end, url, description, filmUrl, soldOut}) => {
     calendar.createEvent({
       start,
       end,
       url,
       summary: title,
+      description: `${soldOut ? "[sold out] " : ""}${filmUrl}\n\n${description}`,
     })
   });
 
