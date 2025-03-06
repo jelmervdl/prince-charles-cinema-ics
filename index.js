@@ -12,7 +12,7 @@ const months = [
   "July",
   "August",
   "September",
-  "Oktober",
+  "October",
   "November",
   "December",
 ].reduce((acc, month, index) => ({ ...acc, [month]: index }), {});
@@ -27,13 +27,16 @@ function parseDate(day, time) {
   const hour = parseInt(h) + (am === "pm" ? 12 : 0);
   const minute = parseInt(m);
   // console.log({ today, day, time, date, monthIdx, year, hour, minute });
-  return new Date(
+  const value = new Date(
     year,
     monthIdx,
     date,
     hour,
     minute
   );
+  if (isNaN(value.valueOf()))
+    throw new Error(`Invalid date: ${day} ${time}`);
+  return value;
 }
 
 function scrape(page, callback) {
@@ -61,10 +64,14 @@ function scrape(page, callback) {
         if (!buttonEl) return;
         const time = buttonEl.querySelector(".time").textContent.trim();
         const url = buttonEl.href;
-        const start = parseDate(day, time);
-        const end = new Date(start.getTime() + (parseInt(runtime) || 0) * 60_000);
-        const soldOut = listEl.matches(".soldfilm_book_button");
-        callback({ title, start, end, url, description, soldOut, filmUrl });
+        try {
+          const start = parseDate(day, time);
+          const end = new Date(start.getTime() + (parseInt(runtime) || 0) * 60_000);
+          const soldOut = listEl.matches(".soldfilm_book_button");
+          callback({ title, start, end, url, description, soldOut, filmUrl });
+        } catch(err) {
+          console.error("Error while processing", { title, filmUrl, description, runtime, day, time}, err);
+        }
       }
     })
   })
