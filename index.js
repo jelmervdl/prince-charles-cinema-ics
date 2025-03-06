@@ -105,7 +105,15 @@ async function main() {
       url,
       summary: title,
       description: `${soldOut ? "[sold out] " : ""}${filmUrl}\n\n${description}`,
-    })
+      location: {
+        title: "Prince Charles Cinema",
+        address: "7 Leicester Pl, London, WC2H 7BY",
+        geo: {
+          lat: 51.511484,
+          lon: -0.130210,
+        }
+      }
+    });
   });
 
   const dest = process.argv[2] || "out.ics";
