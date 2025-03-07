@@ -108,10 +108,10 @@ async function main() {
       location: {
         title: "Prince Charles Cinema",
         address: "7 Leicester Pl, London, WC2H 7BY",
-        geo: {
-          lat: 51.511484,
-          lon: -0.130210,
-        }
+        // geo: {
+        //   lat: 51.511484,
+        //   lon: -0.130210,
+        // }
       }
     });
   });
