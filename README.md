@@ -10,4 +10,5 @@ or manually subscribe to `https://jelmervdl.github.io/prince-charles-cinema-ics/
 
 
 Other calendar feeds:
-- https://github.com/lamby/picturehouse-ics
+- https://github.com/jelmervdl/picturehouse-ics
+- https://github.com/jelmervdl/bfi-ics (defunct)
