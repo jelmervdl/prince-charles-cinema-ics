@@ -14,7 +14,8 @@
   "author": "Jelmer van der Linde",
   "license": "ISC",
   "dependencies": {
-    "happy-dom": "^15.11.7",
-    "ical-generator": "^8.0.1"
+    "@date-fns/tz": "^1.2.0",
+    "happy-dom": "^17.6.3",
+    "ical-generator": "^9.0.0"
   }
 }

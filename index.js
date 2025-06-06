@@ -1,5 +1,6 @@
 import { Browser } from "happy-dom";
 import ical from "ical-generator";
+import { TZDate } from "@date-fns/tz";
 import fs from "node:fs";
 
 const months = [
@@ -17,22 +18,26 @@ const months = [
   "December",
 ].reduce((acc, month, index) => ({ ...acc, [month]: index }), {});
 
+const TIMEZONE = "Europe/London";
+
 function parseDate(day, time) {
   const [dow, dom, mon] = day.split(" ");
   const [_, h, m, am] = time.match(/^(\d{1,2}):(\d{2}) (am|pm)$/);
-  const today = new Date();
+  const today = TZDate.tz(TIMEZONE);
+  console.assert(!isNaN(today.valueOf()));
   const date = parseInt(dom);
   const monthIdx = months[mon];
   const year = today.getFullYear() + ((monthIdx < today.getMonth() || (monthIdx === today.getMonth() && date < today.getDate())) ? 1 : 0);
   const hour = parseInt(h) + (am === "pm" ? 12 : 0);
   const minute = parseInt(m);
   // console.log({ today, day, time, date, monthIdx, year, hour, minute });
-  const value = new Date(
+  const value = new TZDate(
     year,
     monthIdx,
     date,
     hour,
-    minute
+    minute,
+    TIMEZONE,
   );
   if (isNaN(value.valueOf()))
     throw new Error(`Invalid date: ${day} ${time}`);
