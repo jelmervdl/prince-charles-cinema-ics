@@ -18,12 +18,13 @@ const months = [
   "December",
 ].reduce((acc, month, index) => ({ ...acc, [month]: index }), {});
 
-const TIMEZONE = "Europe/London";
+const timezone = "Europe/London";
+
+const today = TZDate.tz(timezone);
 
 function parseDate(day, time) {
   const [dow, dom, mon] = day.split(" ");
   const [_, h, m, am] = time.match(/^(\d{1,2}):(\d{2}) (am|pm)$/);
-  const today = TZDate.tz(TIMEZONE);
   console.assert(!isNaN(today.valueOf()));
   const date = parseInt(dom);
   const monthIdx = months[mon];
@@ -37,7 +38,7 @@ function parseDate(day, time) {
     date,
     hour,
     minute,
-    TIMEZONE,
+    timezone,
   );
   if (isNaN(value.valueOf()))
     throw new Error(`Invalid date: ${day} ${time}`);
@@ -107,6 +108,7 @@ async function main() {
     calendar.createEvent({
       start,
       end,
+      timezone,
       url,
       summary: title,
       description: `${soldOut ? "[sold out] " : ""}${filmUrl}\n\n${description}`,
