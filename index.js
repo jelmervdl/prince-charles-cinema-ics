@@ -1,6 +1,7 @@
 import { Browser } from "happy-dom";
 import ical from "ical-generator";
 import { TZDate } from "@date-fns/tz";
+import { addMinutes } from "date-fns";
 import fs from "node:fs";
 
 const months = [
@@ -72,7 +73,7 @@ function scrape(page, callback) {
         const url = buttonEl.href;
         try {
           const start = parseDate(day, time);
-          const end = new Date(start.getTime() + (parseInt(runtime) || 0) * 60_000);
+          const end = addMinutes(start, parseInt(runtime) || 90);
           const soldOut = listEl.matches(".soldfilm_book_button");
           callback({ title, start, end, url, description, soldOut, filmUrl });
         } catch(err) {
