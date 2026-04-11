@@ -24,13 +24,13 @@ const timezone = "Europe/London";
 const today = TZDate.tz(timezone);
 
 function parseDate(day, time) {
-  const [dow, dom, mon] = day.split(" ");
+  const [_dow, dom, mon] = day.split(" ");
   const [_, h, m, am] = time.match(/^(\d{1,2}):(\d{2}) (am|pm)$/);
   console.assert(!isNaN(today.valueOf()));
   const date = parseInt(dom);
   const monthIdx = months[mon];
   const year = today.getFullYear() + ((monthIdx < today.getMonth() || (monthIdx === today.getMonth() && date < today.getDate())) ? 1 : 0);
-  const hour = parseInt(h) + (am === "pm" ? 12 : 0);
+  const hour = am == "am" ? parseInt(h) % 12 : (parseInt(h) + (h == "12" ? 0 : 12));
   const minute = parseInt(m);
   // console.log({ today, day, time, date, monthIdx, year, hour, minute });
   const value = new TZDate(
